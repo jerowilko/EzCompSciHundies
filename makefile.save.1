@@ -6,7 +6,7 @@
 
 install:
 	UNAME="`uname -a`"
-	if [[ "$UNAME" == *"Ubuntu"* ]]; then echo "hi"; fi
+	ifeq [[ "$UNAME" == *"Ubuntu"* ]]; then echo "hi"; fi
 
 ###################################################
 # Housekeeping:
