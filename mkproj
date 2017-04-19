@@ -1,0 +1,34 @@
+#!/bin/bash
+DIRS="bin src test docs"
+MAKEFILE=$(head -13 Makefile)
+
+# Read in details
+read -p "Project name: " PROJECT_NAME
+read -p "File names: " -a CLASS_NAMES 
+
+# Create the new Makefile
+MAKEFILE="$MAKEFILE\n\nCLASSES = "
+for i in "${CLASS_NAMES[@]}"
+do
+	MAKEFILE="$MAKEFILE $i.java"
+done
+APPEND=$(tail -27 Makefile)
+MAKEFILE="$MAKEFILE\n$APPEND"
+
+# Create the directory structure
+mkdir $PROJECT_NAME
+cd $PROJECT_NAME
+mkdir $DIRS
+echo -e "$MAKEFILE" > Makefile
+
+# Create .java files
+cd "src"
+for i in "${CLASS_NAMES[@]}" 
+do
+	echo -e "public class $i {\n	\n}" > "$i.java"
+done
+
+# Initialise git repository and add files to initial commit
+git init
+git add *
+git commit -m "Automatically created the initial files for the project"
